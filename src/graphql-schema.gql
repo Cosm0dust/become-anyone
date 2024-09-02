@@ -1,0 +1,136 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreatePostInput {
+  email: String!
+  files: [Upload!]
+  homepage: String
+  parentCommentId: String
+  recaptchaToken: String!
+  text: String!
+  userId: String!
+  username: String!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  refreshToken: String
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input GetManyInput {
+  """count or data or all, default = data"""
+  dataType: String
+
+  """
+  {key: "ASC" or "DESC" or "asc" or "desc" or 1 or -1} or {key: {direction: "ASC" or "DESC" or "asc" or "desc", nulls: "first" or "last" or "FIRST" or "LAST"}}}
+  """
+  order: JSON
+  pagination: IPagination
+  where: JSON
+}
+
+input GetOneInput {
+  where: JSON!
+}
+
+type GetPostType {
+  count: Float
+  data: [Post!]
+}
+
+type GetUserType {
+  count: Float
+  data: [User!]
+}
+
+input IPagination {
+  """Started from 0"""
+  page: Int!
+
+  """Size of page"""
+  size: Int!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type JwtWithUser {
+  jwt: String!
+  user: User!
+}
+
+type Mutation {
+  createPost(files: [Upload!], input: CreatePostInput!): Post!
+  createUser(input: CreateUserInput!): User!
+  deleteUser(id: String!): JSON!
+  refreshAccessToken: JwtWithUser!
+  signIn(input: SignInInput!): JwtWithUser!
+  signOut: Boolean!
+  signUp(input: SignUpInput!): JwtWithUser!
+  updateUser(id: String!, input: UpdateUserInput!): JSON!
+}
+
+type Post {
+  createdAt: DateTime!
+  email: String!
+  homepage: String!
+  id: ID!
+  imageKey: String
+  parentComment: Post
+  text: String!
+  textFileKey: String
+  user: User!
+  username: String!
+}
+
+type Query {
+  getManyPostsList(input: GetManyInput): GetPostType!
+  getManyUserList(input: GetManyInput): GetUserType!
+  getMe: User!
+  getOneUser(input: GetOneInput!): User!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type Subscription {
+  postCreated: Post!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  refreshToken: String
+  username: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  password: String!
+  refreshToken: String
+  updatedAt: DateTime!
+  username: String!
+}

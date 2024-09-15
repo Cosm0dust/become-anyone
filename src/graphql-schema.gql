@@ -6,7 +6,7 @@ input CreatePostInput {
   email: String!
   files: [Upload!]
   homepage: String
-  parentCommentId: String
+  parentId: String
   recaptchaToken: String!
   text: String!
   userId: String!
@@ -81,15 +81,18 @@ type Mutation {
 }
 
 type Post {
+  children: [Post!]
   createdAt: DateTime!
   email: String!
   homepage: String!
   id: ID!
   imageKey: String
-  parentComment: Post
+  parent: Post
+  parentId: String
   text: String!
   textFileKey: String
-  user: User!
+  user: User
+  userId: String
   username: String!
 }
 
@@ -130,6 +133,7 @@ type User {
   email: String!
   id: ID!
   password: String!
+  posts: [Post!]
   refreshToken: String
   updatedAt: DateTime!
   username: String!

@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { User } from 'src/user/entities/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, OneToMany, JoinColumn } from "typeorm";
+import { ObjectType, Field, ID } from "@nestjs/graphql";
+import { User } from "src/user/entities/user.entity";
 
 @Entity()
 @ObjectType()
 export class Post {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
   id: string;
 
@@ -37,12 +37,28 @@ export class Post {
   @Field()
   createdAt: Date;
 
-  @ManyToOne(() => User, user => user.id)
-  @Field(() => User)
-  user: User;
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  userId?: string;
 
-  @ManyToOne(() => Post, comment => comment.id, { nullable: true })
+  @ManyToOne(() => User, user => user.posts, { nullable: true })
+  @JoinColumn({ name: "userId" })
+  @Field(() => User, { nullable: true })
+  user?: User;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  parentId?: string;
+
+  @ManyToOne(() => Post, post => post.children, {
+    nullable: true,
+    lazy: true,
+  })
+  @JoinColumn({ name: "parentId" })
   @Field(() => Post, { nullable: true })
-  parentComment: Post;
-}
+  parent?: Post;
 
+  @OneToMany(() => Post, post => post.parent, { lazy: true })
+  @Field(() => [Post], { nullable: true })
+  children?: Post[];
+}

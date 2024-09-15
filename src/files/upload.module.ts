@@ -1,12 +1,13 @@
-import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { UploadService } from './upload.service';
-import { UploadResolver } from './upload.resolver';
-
+import { Module, forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { HttpModule } from "@nestjs/axios";
+import { UploadService } from "./upload.service";
+import { BullModule } from "@nestjs/bull";
+import { TextProcessor } from "src/post/processors/text.processor";
+import { ImageProcessor } from "src/post/processors/image.processor";
 
 @Module({
   imports: [ConfigModule, HttpModule.register({})],
-  providers: [UploadService, UploadResolver],
+  providers: [UploadService],
 })
-export class UploadModule { }
+export class UploadModule {}

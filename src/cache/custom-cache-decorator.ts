@@ -1,13 +1,12 @@
-import { SetMetadata } from '@nestjs/common';
+import { SetMetadata } from "@nestjs/common";
 
-export const CUSTOM_CACHE = Symbol('CUSTOM_CACHE');
+export const CUSTOM_CACHE = Symbol("CUSTOM_CACHE");
 export interface CustomCacheOptions {
-   key?: string;
+  key?: string;
 
-   ttl?: number;
+  ttl?: number;
 
-   logger?: (...args: unknown[]) => unknown;
+  logger?: (...args: unknown[]) => unknown;
 }
 
-export const CustomCache = (options: CustomCacheOptions = {}) =>
-   SetMetadata(CUSTOM_CACHE, options);
+export const CustomCache = (options: CustomCacheOptions = {}) => SetMetadata(CUSTOM_CACHE, options);
